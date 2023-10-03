@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/toastr/toastr.min.css">
+</head>
+<body>
+    <div class="col-md-12  h-100  flex  navigation">
+
+        <div class="nav1">
+            <img  class="logo" src="/img/Storefront.svg"  alt="logo" >
+            <img src="/img/nav/logo.svg" alt="logo 2" >
+        </div>
+
+        <div class="nav2 ">
+            <a href="/">Home</a>
+            <a href="/">Rankings</a>
+            <a href="/">connect Wallet</a>
+        </div>
+
+        <div class="btn-group w-30">
+            <a href="/sign_in" class="btn"> <img src="/img/User.svg" alt=""> Sign In</a>
+        </div>
+
+    </div>
+    <%- body %>
+
+    <script src="/toastr/toastr.init.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<style>
+    @font-face {
+        font-family: "Work Sans";
+        src: url("./fonts/WorkSans-Light.ttf");
+    }
+    body {
+         background-color: rgba(43, 43, 43, 1);;
+    }
+    .auth {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 60px;
+    }
+    .auth_img {
+        width: 50%;
+        height: 40%;
+        overflow: hidden;
+        
+    }
+    .auth_img > img {
+        width: 100%;
+        height: 100%;
+    }
+    .auth_forms {
+        width: 40%;
+        display: flex;
+        padding: 20px 0px;
+        flex-direction: column;
+        align-items: flex-start;
+        flex: 1 0 0;
+    }
+    .auth_header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 80px ;
+    }
+    .auth_header > h2 {
+        color: var(--white, #FFF);
+        font-size: 51px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 110%;
+        text-transform: capitalize;
+    }
+    .auth_description{
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+    }
+    .auth_description > h3 {
+        color: var(--white, #ffffffa8);
+        font-family: Work Sans;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 160%;
+        text-transform: capitalize;
+    }
+    .forms {
+        display: flex;
+        margin-top: 50px;
+        width: 330px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+     #EMAIL {
+        width: 100%;
+        display: flex;
+        height: 46px;
+        padding: 16px 60px;
+        align-items: center;
+        gap: 12px;
+        align-self: stretch;
+        border-radius: 20px;
+        border: 1px solid var(--caption-label-text, #eeeee4);
+        background: var(--text, #FFF);
+        outline: none;
+        font-family: "Work Sans";
+    }
+
+    .inputs_icon {
+        position: relative;
+        width: 100%;
+    }
+
+    svg {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        top: 10px;
+        left: 20px;
+    }
+    .btn_create {
+        display: flex;
+        cursor: pointer;
+        border: none;
+        height: 46px;
+        padding: 0px 90px;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        align-self: stretch;
+        border-radius: 20px;
+        background: var(--call-to-action, #A259FF);
+    }
+    .verification__fields {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .input_code {
+        width: 50px;
+        padding: 10px 20px;
+        border: none;
+        border-bottom: 1px solid white;
+        outline: none;
+        background-color: rgba(43, 43, 43, 1);
+        color: #fff;
+    }
+
+
+</style>
+
+
+<div class="auth">
+    <div class="auth_img">
+        <img src="/img/forgetpass.jpg" alt="">
+    </div>
+    <div class="auth_forms">
+        <div class="auth_header">
+            <h2>Confrim Code </h2>
+        </div>
+        <div class="auth_description">
+            <h3>Welcome! enter your details and start creating, collecting and selling NFTs.</h3>
+        </div>
+        <div class="forms">
+            <div class="inputs_icon">
+                <input type="text" placeholder="CONNFIRM CODE" id="CODE" >
+            </div>
+            <button class="btn_create"  id="send" onclick="confirm()"  type="button"> Confirm </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  ScriptlaR -->
+<script src="/axios.min.js"></script>
+<script src="/jquery.min.js"></script>
+<script src="/choices.js"></script>
+<script src="/toastr/notification.js"></script>
+
+
+
+
+
+
+
+<script>
+    const confirm = () => {
+        const code = document.getElementById("CODE")
+    }
+
+
+</script>

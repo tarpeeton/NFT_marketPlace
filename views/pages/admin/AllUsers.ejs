@@ -1,0 +1,191 @@
+<style>
+  th , td , p{
+    color: black;
+    font-weight: 900;
+
+  }
+
+</style>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Balance</th>
+      <th>Role</th>
+      <th>ID</th>
+      <th>
+        <button id="allDataGet" onclick="allDataGet()"> Get Data</button>
+      </th>
+      <th>
+        
+        <!-- Button to trigger modal -->
+         
+          <button data-toggle="modal" data-target="#registrationModal">
+            <i class="fa-solid fa-user-plus" style="color: #0058f0;"></i>
+          </button>
+
+<!-- Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Registration Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password">
+          </div>
+          <div class="file-upload">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" required>
+            <span class="file-upload-text">No file chosen</span>
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role">
+              <option value="admin">Admin</option>
+              <option value="moderator">moderator</option>
+            </select>
+          </div>
+     
+          <button type="button" onclick="CreateUser()" class="btn btn-primary">Register</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="table_list">
+    <!-- Data will be appended here -->
+  </tbody>
+ 
+</table>
+
+
+
+
+
+<script src="/axios.min.js"></script>
+<script src="/jquery.min.js"></script>
+<script>
+
+
+const allDataGet = async () => {
+    axios.get('/get/all/data')
+  .then(response => {
+    const data = response.data;
+    
+    const putTable = $(".table_list")
+        putTable.html("")
+        data.forEach((data) => {
+            putTable.append(`
+                    <tr>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+              src="/uploads/${data.image}"
+              
+              style="width: 45px; height: 45px"
+              class="rounded-circle"
+              />
+          <div class="ms-3 text-center">
+            <p class="fw-bold mb-1 ">${data.name}</p>
+            <p class="text-muted mb-0 text-center">${data.email}</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="text-muted mb-0 text-center">${data.balance}</p>
+      </td>
+      <td class="text-center mt-2">
+        <span class="badge badge-success rounded-pill d-inline ">${data.role}</span>
+      </td>
+      <td class="text-center ">${data._id}</td>
+      <td>
+        <div class="row" style="width: 50%;">
+      <div class="row-rigth" style="width: 20%;">
+        <button type="button text-center" onclick= "editUser()" class="btn btn-link btn-sm btn-rounded">
+          <i class="fa-solid fa-pen-to-square fa-beat fa-lg"> </i>
+        </button>
+        </div>
+      <div class="row-left" style="width: 20%;">
+        <button type="button" onclick= "deleteUser()" class="btn btn-link btn-sm btn-rounded">
+          <i class="fa-solid fa-trash fa-bounce fa-xl" style="color: #eb2300;"></i>
+        </button>
+        </div>
+    </div>
+      </td>
+    </tr>
+                `)
+        });
+    
+  })
+  .catch(error => {
+    console.error('Xatolik yuz berdi:', error);
+  });
+}
+
+
+
+ const CreateUser = () => {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+    const image = document.getElementById("image").files[0];
+
+    /* CHECKING */
+    if (name == "" || email == "" || password == "" || role == "" || !image) {
+      alert("Enter the information completely");
+    } else {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("role", role);
+            formData.append("image", image);
+
+            axios({
+                method: "POST",
+                url: "/api/user/create",
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+                .then((response) => {
+                    const data = response.data;
+                    if (data.success == true) {
+                      alert("Siz Avtorizatsiyadan ottingiz");
+                    } else {
+                      alert("Registration failed");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("An error occurred during registration");
+                });
+       
+    }
+ }
+//  end
+// frontend code
+
+
+
+</script>

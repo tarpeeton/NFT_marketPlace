@@ -1,0 +1,78 @@
+<style>
+    .container {
+      width: 100%;
+      padding: 2px;
+    }
+    tr:nth-child(even) {
+      background-color: #312f2fef;
+    }
+    tr:nth-child(odd) {
+      background-color: #454547d3;
+    }
+    th {
+      background-color: #342F44;
+      color: white;
+    }
+    
+    .noBorder {
+        border:none !important;
+    }
+    .btn {
+      margin: 0 25% 0  25%;
+    }
+    </style>
+    
+
+    <div class="container">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="theadw"> 
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Collection</th>
+                <th scope="col">Umumiy Summa</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="table_list">
+                <!-- malumotlar append bolganida qolibga tushadi -->
+            </tbody>
+          </table>
+          <button id="button" type="button" class="btn btn-primary , w-50 " onclick="allDataGet()"> Get All Data</button>
+        </div>
+      </div>
+    
+    
+    
+    <!--  Scriptlar -->
+<script src="/axios.min.js"></script>
+<script src="/jquery.min.js"></script>
+<script>
+    
+    const allDataGet = async () => {
+        axios.get('/get/all/data')
+      .then(response => {
+        const data = response.data;
+        
+        const putTable = $(".table_list")
+            putTable.html("")
+            data.forEach((data) => {
+                putTable.append(`
+                        <tr>
+                            <td id = " userid " style="vertical-align: middle , ; margin-top:"30px">${data._id}</td>
+                            <td  style="vertical-align: middle ;">${data.name} </td> 
+                            <td style="vertical-align: middle ;">${data.balance}</td>
+                            <td style="vertical-align: middle ;">${data.email}</td>
+                           
+                        </tr>
+                    `)
+            });
+        
+      })
+      .catch(error => {
+        console.error('Xatolik yuz berdi:', error);
+      });
+    }
+    
+    </script>
+    
