@@ -185,24 +185,23 @@
                 data: body
             }).then((response) => {
                 const data = response.data
+
+                if(data.role == "user") {
+                    SuccessMessage("Hush kelibsiz user")
+                    setTimeout(() => {window.location.replace("/")} , 1000 * 1.4)
+                }
+
                 if (data.role == "admin") {
                     SuccessMessage(`hush kelibsiz admin `)
                     const token = data.token;
                     const role = data.role
                     const uuid = data.uuid
                     window.localStorage.setItem("user_token", token)
-                    console.log(uuid);
-                     setTimeout(() => { window.location.replace(`/admin/dashboard/${uuid}`) }, 1000 * 1.5)
+                    console.log(token);
+                     setTimeout(() => { window.location.replace(`/admin/dashboard/${uuid}`) }, 1000 * 1.1)
                 }
-                if (data.role == "moderator") {
-                    SuccessMessage(`hush kelibsiz moderator`)
-                    window.localStorage.setItem("user_token", token)
-                    setTimeout(() => { window.location.replace("/404") }, 1000 * 1.4)
-                }
-                if(data.role == "user") {
-                    SuccessMessage("Hush kelibsiz user")
-                    setTimeout(() => {window.location.replace("/")} , 1000 * 1.4)
-                }
+     
+               
             })
         }
     }

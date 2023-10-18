@@ -1,7 +1,8 @@
 const router = require("express").Router();
+const { auth, roles } = require("../middlewares/protectHandler")
 
 
-router.get("/sign_up_admin" , async ( req , res , next ) => {
+router.get("/sign_up_admin" ,auth, roles("admin"), async ( req , res , next ) => {
   
     res.render(
         "../views/pages/auth/sign_up.ejs",
@@ -11,7 +12,7 @@ router.get("/sign_up_admin" , async ( req , res , next ) => {
         }
     )
 })
-router.get("/sign_in_admin" , async ( req , res , next ) => {
+router.get("/sign_in_admin",auth, roles("admin") , async ( req , res , next ) => {
   
     res.render(
         "../views/pages/auth/sign_in.ejs",
@@ -21,7 +22,7 @@ router.get("/sign_in_admin" , async ( req , res , next ) => {
         }
     )
 })
-router.get("/404_admin" , async ( req , res , next ) => {
+router.get("/404_admin",auth, roles("admin") , async ( req , res , next ) => {
   
     res.render(
         "../views/pages/auth/404.ejs",
@@ -31,7 +32,7 @@ router.get("/404_admin" , async ( req , res , next ) => {
         }
     )
 })
-router.get("/admin/dashboard/:uuid" , async ( req , res , next ) => {
+router.get("/admin/dashboard/:uuid",auth, roles("admin") , async ( req , res , next ) => {
  
 
         res.render(
@@ -45,7 +46,7 @@ router.get("/admin/dashboard/:uuid" , async ( req , res , next ) => {
     }
   
 )
-router.get("/top/creators" , async ( req , res , next ) => {
+router.get("/top/creators",auth, roles("admin") , async ( req , res , next ) => {
   
     res.render(
         "../views/pages/admin/topCreators.ejs",
@@ -55,7 +56,7 @@ router.get("/top/creators" , async ( req , res , next ) => {
         }
     )
 })
-router.get("/admin/all/users" , async ( req , res , next ) => {
+router.get("/admin/all/users",auth, roles("admin") , async ( req , res , next ) => {
   
     res.render(
         "../views/pages/admin/AllUsers.ejs",
@@ -65,26 +66,27 @@ router.get("/admin/all/users" , async ( req , res , next ) => {
         }
     )
 })
-router.get("/admin/create/new/file" , async ( req , res , next ) => {
+router.get("/user/search" ,auth, roles("admin"), async ( req , res , next ) => {
+  
+    res.render(
+        "../views/pages/admin/profile.ejs",
+        {
+            layout: "../views/layouts/admin.Layout.ejs",
+            title: "User Profile"
+        }
+    )
+})
+router.get("/Create/Nft" ,auth, roles("admin"), async ( req , res , next ) => {
   
     res.render(
         "../views/pages/admin/CreateNFT.ejs",
         {
             layout: "../views/layouts/admin.Layout.ejs",
-            title: "Nfs Marketplace - Create"
+            title: "Create NFT"
         }
     )
 })
-router.get("/admin/profile" , async ( req , res , next ) => {
-  
-    res.render(
-        "../views/pages/admin/profil.ejs",
-        {
-            layout: "../views/layouts/admin.Layout.ejs",
-            title: "Nfs Marketplace - profile"
-        }
-    )
-})
+
 
 
 module.exports = router

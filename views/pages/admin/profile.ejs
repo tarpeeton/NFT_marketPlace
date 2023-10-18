@@ -1,0 +1,265 @@
+<style>
+  body{
+    color: #1a202c;
+    text-align: left;
+    background-color: #e2e8f0;    
+}
+.main-body {
+    padding: 15px;
+}
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-body {
+  height: 560px;
+}
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+
+.shadow-none {
+    box-shadow: none!important;
+}
+</style>
+
+
+<div class="container">
+    <!-- Table sifatida malumotlar joylashtiriladi  -->
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Update User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="updateForm">
+            <div class="mb-3">
+              <label for="NAME" class="form-label">Name</label>
+              <input type="text" class="form-control" id="NAME" placeholder="Your name">
+            </div>
+            <div class="mb-3">
+              <label for="EMAIL" class="form-label">Email</label>
+              <input type="email" class="form-control" id="EMAIL" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label for="ROLE" class="form-label">Role</label>
+              <select class="form-select" id="ROLE">
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </div>
+          </form>
+          <button type="button" id="updateButton" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+<script src="/axios.min.js"></script>
+
+<script>
+// Foydalanuvchining geolokatsiyasini olish
+// Foydalanuvchining geolokatsiyasini olish
+
+
+function openModal(uuid) {
+  $('#exampleModal').modal('show');
+  document.getElementById("updateButton").onclick = function() {
+    editUser(uuid);
+  };
+}
+
+
+const editUser = async (uuid) => {
+  const name = document.getElementById("NAME").value;
+  const email = document.getElementById("EMAIL").value;
+  const role = document.getElementById("ROLE").value;
+
+  try {
+    const response = await axios.put(`/update/${uuid}`, { name, email, role });
+    console.log(response);
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+
+if (window.location.pathname === "/user/search") {
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get("name");
+
+  // Axios orqali malumotlarni olish
+  axios.get("/search/User", {
+    params: {
+      name: name
+    }
+  })
+  .then(function(response) {
+    const data = response.data;
+
+    const putTable = $(".container");
+    putTable.html("");
+    data.forEach((data) => {
+      putTable.append(`
+        <div class="main-body">
+          <!-- Breadcrumb ... -->
+          <div class="row gutters-sm">
+            <div class="col-md-4 ">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="/uploads/${data.image}" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>${data.name}</h4>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card ">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      ${data.name}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      ${data.email}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Role</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      ${data.role}
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">CreatedAt</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      ${data.createdAt}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button type="button" data-toggle="modal" onclick="openModal('${data.uuid}')" data-target="#exampleModal"  class="btn btn-warning text-dark btn-sm btn-rounded" style="font-size:14px;">
+                    EDIT  
+                  </button>
+                      <button type="button"   class="btn btn-success text-dark btn-sm btn-rounded" style="font-size:14px;">
+                    Message  
+                  </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+
+
+    $(".container").on("click", ".btn-success", function() {
+  // Modal oynani yaratish
+  const modal = `
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="messageModalLabel">Xabar yuborish</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="messageInput" class="form-control" placeholder="Xabaringizni kiriting...">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="sendMessageBtn">Yuborish</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Modal oynani HTML-ga qo'shish
+  $("body").append(modal);
+
+  // Modal oynani chiqarish
+  $("#messageModal").modal("show");
+});
+
+// Xabar yuborish
+$(document).on("click", "#sendMessageBtn", function() {
+  const message = $("#messageInput").val().trim();
+  if (message) {
+    const recipient = data[0].email;
+    const subject = "Xabar";
+    const body = message;
+
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+
+    // Modal oynani yopish
+    $("#messageModal").modal("hide");
+  }
+});
+
+  })
+  .catch(function(error) {
+    console.error(error);
+  });
+}
+
+
+
+
+
+
+</script>

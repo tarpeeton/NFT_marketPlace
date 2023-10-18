@@ -31,6 +31,16 @@ router.get("/sign_in" , async ( req , res , next ) => {
         }
     )
 })
+router.get("/404" , async ( req , res , next ) => {
+  
+    res.render(
+        "../views/pages/auth/404.ejs",
+        {
+            layout: "../views/layouts/auth.Layout.ejs",
+            title: " 404 😜 "
+        }
+    )
+})
 router.get("/reset_password" , async ( req , res , next ) => {
   
     res.render(

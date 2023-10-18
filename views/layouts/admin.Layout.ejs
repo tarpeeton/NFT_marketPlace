@@ -189,14 +189,18 @@ style attribute {
         <%= title %>
     </title>
     
+
+        
+    <link rel="stylesheet" href="/bootstrap.min.css">
+
 <!-- font awesome  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- mdbootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/css/mdb.min.css" integrity="sha512-hj9rznBPdFg9A4fACbJcp4ttzdinMDtPrtZ3gBD11DiY3O1xJfn0r1U5so/J0zwfGOzq9teIaH5rFmjFAFw8SA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <!-- adminka bootstrap + css -->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/sb-admin-2.css" rel="stylesheet">
+
     <!-- Bootstrap   -->
-    <link rel="stylesheet" href="/bootstrap.min.css">
 </head>
 <body>
 </head>
@@ -277,7 +281,7 @@ style attribute {
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/admin/create/new/file">Create Nft</a>
+                        <a class="collapse-item" href="/Create/Nft">Create Nft</a>
                         <a class="collapse-item" href="/admin/all/users">All Users</a>
                     </div>
                 </div>
@@ -313,18 +317,18 @@ style attribute {
                         <i class="fa fa-bars"></i>
                     </button>
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                   <!-- search.ejsssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
+                   <form class="d-none d-sm-inline-block form-inline ... ... ... mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/search/User" method="GET" onsubmit="search(event)">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-light border-0 ... ... ... ... small" ... ... placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" name="name">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+  
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
@@ -421,7 +425,7 @@ style attribute {
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                                <p> Name</p>
+                                <p class=" text text-dark"> </p>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -473,7 +477,7 @@ style attribute {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-primary" onclick="LogOut()">Logout</button>
                 </div>
             </div>
         </div>
@@ -495,10 +499,20 @@ style attribute {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/js/mdb.min.js" integrity="sha512-XFd1m0eHgU1F05yOmuzEklFHtiacLVbtdBufAyZwFR0zfcq7vc6iJuxerGPyVFOXlPGgM8Uhem9gwzMI8SJ5uw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
+ 
+    <script>
+        function search(event) {
+                event.preventDefault(); // Saqlashni to'xtatish uchun
+                const name = document.querySelector('input[name="name"]').value;
+                window.location.href = "/user/search?name=" + name ;
+            }
+            const LogOut = () => {
+                axios.get("/user/logOut")
+                window.location.replace("/sign_in")
+            }
+            
 
-
-
-
+    </script>
 
 
 

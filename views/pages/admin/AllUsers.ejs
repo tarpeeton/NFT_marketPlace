@@ -4,16 +4,66 @@
     font-weight: 900;
 
   }
+  .file-upload {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload label {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-upload-text {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.file-upload input[type="file"]:focus + .file-upload-text {
+  outline: 2px solid #007bff;
+}
+
+.file-upload input[type="file"]:valid + .file-upload-text {
+  background-color: #e6f7ff;
+  border-color: #007bff;
+}
+
 
 </style>
 <table class="table">
   <thead>
     <tr>
+      
+      <th>Image</th>
       <th>Balance</th>
       <th>Role</th>
       <th>ID</th>
       <th>
         <button id="allDataGet" onclick="allDataGet()"> Get Data</button>
+     
       </th>
       <th>
         
@@ -58,9 +108,11 @@
             <label for="role" class="form-label">Role</label>
             <select class="form-select" id="role">
               <option value="admin">Admin</option>
-              <option value="moderator">moderator</option>
+              <option value="user">user</option>
             </select>
           </div>
+
+          
      
           <button type="button" onclick="CreateUser()" class="btn btn-primary">Register</button>
         </form>
@@ -69,82 +121,75 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Update User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="updateForm">
+          <div class="mb-3">
+            <label for="NAME" class="form-label">Name</label>
+            <input type="text" class="form-control" id="NAME" placeholder="Your name">
+          </div>
+          <div class="mb-3">
+            <label for="EMAIL" class="form-label">Email</label>
+            <input type="email" class="form-control" id="EMAIL" placeholder="Enter your email">
+          </div>
+
+          <div class="mb-3">
+            <label for="ROLE" class="form-label">Role</label>
+            <select class="form-select" id="ROLE">
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+
+          
+        </form>
+        <button type="button" id="updateButton" class="btn btn-primary">Update</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
       </th>
     </tr>
   </thead>
   <tbody class="table_list">
     <!-- Data will be appended here -->
+
+    
   </tbody>
  
 </table>
-
-
-
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
 
 
 <script src="/axios.min.js"></script>
 <script src="/jquery.min.js"></script>
 <script>
 
-
-const allDataGet = async () => {
-    axios.get('/get/all/data')
-  .then(response => {
-    const data = response.data;
-    
-    const putTable = $(".table_list")
-        putTable.html("")
-        data.forEach((data) => {
-            putTable.append(`
-                    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="/uploads/${data.image}"
-              
-              style="width: 45px; height: 45px"
-              class="rounded-circle"
-              />
-          <div class="ms-3 text-center">
-            <p class="fw-bold mb-1 ">${data.name}</p>
-            <p class="text-muted mb-0 text-center">${data.email}</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="text-muted mb-0 text-center">${data.balance}</p>
-      </td>
-      <td class="text-center mt-2">
-        <span class="badge badge-success rounded-pill d-inline ">${data.role}</span>
-      </td>
-      <td class="text-center ">${data._id}</td>
-      <td>
-        <div class="row" style="width: 50%;">
-      <div class="row-rigth" style="width: 20%;">
-        <button type="button text-center" onclick= "editUser()" class="btn btn-link btn-sm btn-rounded">
-          <i class="fa-solid fa-pen-to-square fa-beat fa-lg"> </i>
-        </button>
-        </div>
-      <div class="row-left" style="width: 20%;">
-        <button type="button" onclick= "deleteUser()" class="btn btn-link btn-sm btn-rounded">
-          <i class="fa-solid fa-trash fa-bounce fa-xl" style="color: #eb2300;"></i>
-        </button>
-        </div>
-    </div>
-      </td>
-    </tr>
-                `)
-        });
-    
-  })
-  .catch(error => {
-    console.error('Xatolik yuz berdi:', error);
-  });
-}
-
-
-
- const CreateUser = () => {
+const CreateUser = () => {
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -171,7 +216,8 @@ const allDataGet = async () => {
                 .then((response) => {
                     const data = response.data;
                     if (data.success == true) {
-                      alert("Siz Avtorizatsiyadan ottingiz");
+                      $('#registrationModal').modal('hide');
+                      allDataGet()
                     } else {
                       alert("Registration failed");
                     }
@@ -183,9 +229,121 @@ const allDataGet = async () => {
        
     }
  }
-//  end
+
+ const allDataGet = async (page) => {
+  axios.get(`/get/all/data?page=${page}`)
+    .then(response => {
+      const data = response.data.data;
+      const totalPages = response.data.totalPages;
+
+      const putTable = $(".table_list");
+      putTable.html("");
+      data.forEach((data) => {
+        putTable.append(`
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="/uploads/${data.image}" style="width: 45px; height: 45px" class="rounded-circle" />
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">${data.name}</p>
+                  <p class="text-muted mb-0">${data.email}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-muted mb-0">${data.balance}</p>
+            </td>
+            <td>
+              <span class="badge badge-success rounded-pill d-inline">${data.role}</span>
+            </td>
+            <td>${data.uuid}</td>
+            <td>
+              <div class="row" style="width: 50%;">
+                <div class="row-rigth" style="width: 20%;">
+                  <button type="button" data-toggle="modal" onclick="openModal('${data.uuid}')" data-target="#exampleModal" class="btn btn-link btn-sm btn-rounded">
+                    <i class="fa-solid fa-pen-to-square fa-beat fa-lg"></i>
+                  </button>
+                </div>
+                <div class="row-left" style="width: 20%;">
+                  <button type="button" onclick="deleteUser('${data.uuid}')" class="btn btn-link btn-sm btn-rounded">
+                    <i class="fa-solid fa-trash fa-bounce fa-xl" style="color: #eb2300;"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+       
+          </tr>
+       
+        `);
+      });
+
+      const pagination = $(".pagination");
+      pagination.html("");
+      if (page > 1) {
+        pagination.append(`
+          <li class="page-item">
+            <a class="page-link" href="#" onclick="changePage(${page - 1})">Previous</a>
+          </li>
+        `);
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        pagination.append(`
+          <li class="page-item ${page === i ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+          </li>
+        `);
+      }
+      if (page < totalPages) {
+        pagination.append(`
+          <li class="page-item">
+            <a class="page-link" href="#" onclick="changePage(${page + 1})">Next</a>
+          </li>
+        `);
+      }
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
+};
+
+const changePage = (page) => {
+  allDataGet(page);
+};
+
+function openModal(uuid) {
+  $('#exampleModal').modal('show');
+  document.getElementById("updateButton").onclick = function() {
+    editUser(uuid);
+  };
+}
+
+const editUser = async (uuid) => {
+  const name = document.getElementById("NAME").value;
+  const email = document.getElementById("EMAIL").value;
+  const role = document.getElementById("ROLE").value;
+
+  try {
+    const response = await axios.put(`/update/${uuid}`, { name, email, role });
+    console.log(response);
+    allDataGet();
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+const deleteUser = (uuid) => {
+  // Kullanıcıyı silme işlemini gerçekleştirin
+  axios.delete(`/user/delete/${uuid}`)
+    .then(response => {
+      // Başarılı bir şekilde silindiğinde yapılacak işlemler
+    allDataGet();
+      
+    })
+    .catch(error => {
+      // Hata durumunda yapılacak işlemler
+      console.error(error);
+    });
+};
 // frontend code
-
-
 
 </script>

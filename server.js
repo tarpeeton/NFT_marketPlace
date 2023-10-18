@@ -1,13 +1,3 @@
-/* Copyright (C) 20223 Kidiraliyev Rustam - All Rights Reserved
- * You may use, distribute and modify this code under the
- * terms of the XYZ license, which unfortunately won't be
- * written for another century.
- *
- * You should have received a copy of the XYZ license with
- * this file. If not, please write to: , or visit :
- */
-
-
 
 // Requirement
 const express = require("express")
@@ -54,11 +44,9 @@ app.set("view engine", "ejs")
 /* Routers Fronrtend */
 app.use("/", require("./views/routes/landing.page"))
 app.use(require("./views/routes/admin.page.js"))
-app.use(express.static("uploads"));
 /* Routers Backend */
 app.use(require("./router/client"))
-app.use(require("./router/admin"))
-app.use(require("./router/admin"))
+app.use(require("./router/nft"))
 
 
 
@@ -76,9 +64,15 @@ const database = async () => {
 }
 const create_folder = async () => {
     fs.mkdir(path.join(__dirname, "./public"), (error) => { })
+    fs.mkdir(path.join(__dirname, "./public/uploads"), (error) => { })
+    fs.mkdir(path.join(__dirname, "./public/nft"), (error) => { })
+
 }
 database()
 create_folder()
 
+app.all('*', async (req, res, next) => {
+    res.redirect("/404")
+})
 
 
