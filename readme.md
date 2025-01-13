@@ -11,5 +11,5 @@
 
 Kidiraliyev Rustam Web Site Mualliflik huquqi himoyalangan (c)
 
-##  https://t.me/tarpeeton_n1    =>>>> Telegram 
+##  https://t.me/tot_rustem    =>>>> Telegram 
 ##  +998-91-788-80-41            =>>>> Phone 
